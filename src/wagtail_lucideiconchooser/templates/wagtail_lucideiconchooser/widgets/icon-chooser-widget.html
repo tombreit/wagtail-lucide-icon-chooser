@@ -1,0 +1,37 @@
+{% load i18n %}
+
+<div class="lucide-icon-chooser">
+    <div class="lucide-icon-chooser__selector">
+        <input type="hidden"
+               name="{{ widget.name }}"
+               value="{{ widget.value|stringformat:'s' }}"
+               id="{{ widget.attrs.id }}"
+               {% include "django/forms/widgets/attrs.html" %}>
+        <div class="lucide-icon-chooser__preview">
+            <button type="button"
+                    id="{{ widget.attrs.id }}-modal-trigger"
+                    class="button button-secondary lucide-icon-chooser__open-modal">
+                <span id="{{ widget.attrs.id }}-icon-container"
+                      class="lucide-icon-chooser__icon-container">
+                    {% if widget.value %}
+                        <span class="lucide-icon-chooser__selected"
+                              data-icon-name="{{ widget.value|stringformat:'s' }}"></span>
+                    {% endif %}
+                </span>
+                <span class="lucide-icon-chooser__label">
+                    {% if widget.value %}
+                        {{ widget.value|stringformat:'s' }}
+                    {% else %}
+                        <span class="lucide-icon-chooser__placeholder">{% translate "Icon wählen" %}</span>
+                    {% endif %}
+                </span>
+            </button>
+            <button type="button"
+                    id="{{ widget.attrs.id }}-icon-clear"
+                    class="button button-small lucide-icon-chooser__clear-btn"
+                    {% if not widget.value %}style="display:none"{% endif %}>
+                {% translate "Löschen" %}
+            </button>
+        </div>
+    </div>
+</div>

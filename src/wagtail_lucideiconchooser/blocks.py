@@ -1,0 +1,34 @@
+from django import forms
+from django.utils.functional import cached_property
+from wagtail.blocks import FieldBlock
+
+from wagtail_lucideiconchooser.widgets import LucideIconChooserWidget
+
+
+class LucideIconChooserBlock(FieldBlock):
+    def __init__(
+        self,
+        max_length=100,
+        required=False,
+        help_text=None,
+        validators=(),
+        icons=None,
+        **kwargs,
+    ):
+        self.icons = icons or []
+        self.field_options = {
+            "required": required,
+            "help_text": help_text,
+            "max_length": max_length,
+        }
+        super().__init__(**kwargs)
+
+    @cached_property
+    def field(self):
+        field_kwargs = {"widget": LucideIconChooserWidget(icons=self.icons)}
+        field_kwargs.update(self.field_options)
+        return forms.CharField(**field_kwargs)
+
+    class Meta:
+        icon = "placeholder"
+        label = "Icon"
